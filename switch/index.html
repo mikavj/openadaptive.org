@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Adaptive Switch: a DIY accessibility switch for iPhone and iPad</title>
+<meta name="description" content="Open Adaptive Switch is a free, open source Bluetooth accessibility switch for iOS Switch Control. Build one for about $15 in parts and set it up from a phone.">
+<link rel="canonical" href="https://openadaptive.org/switch/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenAdaptive">
+<meta property="og:title" content="Open Adaptive Switch: a DIY accessibility switch for iPhone and iPad">
+<meta property="og:description" content="A free, open source Bluetooth accessibility switch for iOS Switch Control. About $15 in parts, set up from a phone.">
+<meta property="og:url" content="https://openadaptive.org/switch/">
+<meta property="og:image" content="https://openadaptive.org/assets/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Open Adaptive Switch: a DIY accessibility switch for iPhone and iPad">
+<meta name="twitter:description" content="A free, open source Bluetooth accessibility switch for iOS Switch Control. About $15 in parts, set up from a phone.">
+<meta name="twitter:image" content="https://openadaptive.org/assets/og-image.png">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="shell">
+  <header class="top">
+    <img src="/assets/logo.svg" alt="" width="34" height="34">
+    <a class="name" href="/">OpenAdaptive</a>
+    <nav aria-label="Main">
+      <a href="/switch/" aria-current="page"><img src="/assets/switch-icon.png" alt="" width="20" height="20">Switch</a>
+      <a href="/stories/"><img src="/assets/stories-icon.png" alt="" width="20" height="20">Stories</a>
+      <a href="https://github.com/mikavj/open-adaptive-switch">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <div class="hero split">
+      <div>
+        <h1>A switch you build instead of buy</h1>
+        <p class="lede">Open Adaptive Switch is an open source Bluetooth
+        button for the iOS Switch Control accessibility feature. The parts
+        come to <strong>about $15</strong>; comparable commercial switches
+        sell for around $200. Press it and it sends a keystroke over
+        Bluetooth, which an iPhone or iPad treats as an accessibility
+        switch input.</p>
+        <div class="actions">
+          <a class="btn" href="https://github.com/mikavj/open-adaptive-switch">Build guide on GitHub</a>
+          <a class="btn ghost" href="https://mikavj.github.io/open-adaptive-switch/">Web setup page</a>
+        </div>
+        <p class="soon">The companion iPhone app is on its way to the App
+        Store. Until it arrives, the web setup page does the same job from
+        a browser.</p>
+      </div>
+      <div>
+        <img class="hero-photo" src="/assets/button-render.png" alt="A render of the Open Adaptive Switch: a round white case with a blue button lid, a USB-C port, and the OpenAdaptive mark printed on the side" width="657" height="488" fetchpriority="high">
+      </div>
+    </div>
+
+    <section aria-labelledby="what">
+      <h2 id="what">One button, set up from a phone</h2>
+      <p class="sect-lede">Each unit is a single button in a box: a Seeed
+      XIAO nRF52840 board, a momentary button, and a small rechargeable
+      battery, charged over USB-C. A family can configure everything over
+      Bluetooth with no computer and no reflashing: which key the button
+      sends, one action or three from different press lengths, how long
+      before it sleeps, its name, and its color. Firmware updates arrive
+      the same way. Settings live on the switch itself and survive
+      restarts and updates.</p>
+      <p class="sect-lede">The battery lasts months per charge, because
+      the board holds its Bluetooth connection at roughly 0.1mA. The
+      switch shows its battery level in the app, on the setup page, and
+      in the iOS Batteries widget.</p>
+    </section>
+
+    <section aria-labelledby="ios">
+      <h2 id="ios">Made for iOS Switch Control</h2>
+      <p class="sect-lede">The switch shows up to iOS as a Bluetooth
+      keyboard and pairs in Settings. With Switch Control, a press can tap
+      the screen, run a recipe, or drive the scanner. Each key registers
+      as its own switch input, so three action mode behaves like three
+      switches in one box. It also works outside Switch Control: set it to
+      Space and it starts and pauses YouTube or Apple Music, and the
+      <a href="/stories/">Stories app</a> listens for its key presses
+      directly, with no Switch Control setup at all.</p>
+    </section>
+
+    <section aria-labelledby="site">
+      <div class="quiet">
+        <h2 id="site">The switch in detail</h2>
+        <p class="sect-lede" style="margin-bottom:0">The switch has its own
+        site at
+        <a href="https://openadaptiveswitch.com">openadaptiveswitch.com</a>,
+        with the full feature tour,
+        <a href="https://openadaptiveswitch.com/support/">support and
+        troubleshooting</a>, and the
+        <a href="https://openadaptiveswitch.com/privacy/">privacy
+        policy</a> for the companion app. The
+        <a href="https://github.com/mikavj/open-adaptive-switch">repository</a>
+        holds the build guide, firmware, releases, and the documented
+        Bluetooth protocol.</p>
+      </div>
+    </section>
+
+    <section class="cta" aria-labelledby="start">
+      <h2 id="start">Build one</h2>
+      <p>Parts list, wiring, firmware, and the app source are all in one
+      repository. Assembly is wiring a button between two pins and
+      plugging in a battery.</p>
+      <div class="actions" style="justify-content:center">
+        <a class="btn" href="https://github.com/mikavj/open-adaptive-switch">Read the build guide</a>
+        <a class="btn ghost" href="https://openadaptiveswitch.com">Visit the switch site</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="cols">
+      <div>
+        <strong style="color:var(--fg)">OpenAdaptive</strong>
+        <p style="max-width:24em">Free and open source assistive technology
+        for iPhone and iPad.</p>
+      </div>
+      <ul>
+        <li><a href="https://openadaptiveswitch.com">Switch site</a></li>
+        <li><a href="https://github.com/mikavj/open-adaptive-switch">Source and build guide</a></li>
+        <li><a href="https://github.com/mikavj/open-adaptive-switch/releases">Firmware releases</a></li>
+      </ul>
+      <ul>
+        <li><a href="https://openadaptiveswitch.com/support/">Support</a></li>
+        <li><a href="https://openadaptiveswitch.com/privacy/">Privacy policy</a></li>
+        <li><a href="mailto:contact@openadaptive.org">contact@openadaptive.org</a></li>
+      </ul>
+    </div>
+    <p class="fine">2026 OpenAdaptive contributors. Licensed
+    GPL-3.0-or-later. These are DIY devices without certification; build
+    and use them with care.</p>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,43 @@
+# OpenAdaptive
+
+> OpenAdaptive is a family of free, open source assistive technology
+> projects for iPhone and iPad: a DIY Bluetooth accessibility switch that
+> costs about $15 in parts, and a free app that turns photos into stories
+> read aloud with a single press of that switch.
+
+Facts:
+
+- Open Adaptive Switch is a single button that sends a keystroke over
+  Bluetooth LE, built from a Seeed XIAO nRF52840 board, a momentary
+  button, and a small battery. It works with the iOS Switch Control
+  accessibility feature. Comparable commercial switches sell for around
+  $200. It is configured over Bluetooth from a companion iPhone app or a
+  browser setup page. Its own site is openadaptiveswitch.com.
+- Open Adaptive Stories is a free iPhone and iPad app for people who
+  read with a switch. It turns photos into stories made of spots; in
+  reading mode a highlight scans from spot to spot and one switch press
+  speaks the highlighted one. Page turns and the exit button are part of
+  the scan cycle. An App Store release is being prepared; the app builds
+  from source with Xcode today.
+- A web app at openadaptive.org/stories/app/ builds and plays the same
+  .oastory files in any browser, and can import free picture books from
+  Monarch Reader.
+- Neither app collects data: no accounts, no analytics, no ads.
+- Everything is licensed GPL-3.0-or-later.
+
+## Links
+
+- [Switch overview](https://openadaptive.org/switch/)
+- [Switch site, support, and privacy policy](https://openadaptiveswitch.com/)
+- [Switch source and build guide](https://github.com/mikavj/open-adaptive-switch)
+- [Stories overview](https://openadaptive.org/stories/)
+- [Stories web app](https://openadaptive.org/stories/app/)
+- [Stories support](https://openadaptive.org/stories/support/)
+- [Stories privacy policy](https://openadaptive.org/stories/privacy/)
+- [Stories source](https://github.com/mikavj/open-adaptive-stories)
+
+## Contact
+
+- Email: contact@openadaptive.org
+- Issues: https://github.com/mikavj/open-adaptive-switch/issues and
+  https://github.com/mikavj/open-adaptive-stories/issues

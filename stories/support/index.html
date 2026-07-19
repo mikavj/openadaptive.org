@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support: Open Adaptive Stories</title>
+<meta name="description" content="Support and frequently asked questions for the Open Adaptive Stories app: connecting a switch, voices, sharing stories, and where to get help.">
+<link rel="canonical" href="https://openadaptive.org/stories/support/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenAdaptive">
+<meta property="og:title" content="Support: Open Adaptive Stories">
+<meta property="og:description" content="Support and frequently asked questions for the Open Adaptive Stories app.">
+<meta property="og:url" content="https://openadaptive.org/stories/support/">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="shell narrow">
+  <header class="top">
+    <img src="/assets/logo.svg" alt="" width="34" height="34">
+    <a class="name" href="/">OpenAdaptive</a>
+    <nav aria-label="Main">
+      <a href="/switch/"><img src="/assets/switch-icon.png" alt="" width="20" height="20">Switch</a>
+      <a href="/stories/"><img src="/assets/stories-icon.png" alt="" width="20" height="20">Stories</a>
+      <a href="https://github.com/mikavj/open-adaptive-stories">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <h1 class="page-title">Support</h1>
+    <p class="lede">Answers to the common questions are below. For
+    anything else, an issue on GitHub is the fastest route, and email
+    works too.</p>
+
+    <section class="contact" aria-label="Contact">
+      <p style="margin-top:0">Bug reports, questions, and ideas are all
+      welcome. Include the iOS version and what you were doing when
+      something went wrong, and a screenshot if one helps.</p>
+      <a class="btn" href="https://github.com/mikavj/open-adaptive-stories/issues">Open an issue on GitHub</a>
+      <a class="btn ghost" href="mailto:contact@openadaptive.org">contact@openadaptive.org</a>
+    </section>
+
+    <section class="faq" aria-labelledby="faq" style="margin-top:2.5rem">
+      <h2 id="faq">Questions</h2>
+
+      <details>
+        <summary>Where do I get the app?</summary>
+        <p>The app is coming to the App Store. Until the listing is live,
+        the app builds from source with Xcode; the
+        <a href="https://github.com/mikavj/open-adaptive-stories">README</a>
+        walks through it. The <a href="/stories/app/">web app</a> needs no
+        install at all and builds and plays the same stories in a
+        browser.</p>
+      </details>
+
+      <details>
+        <summary>How do I connect a switch?</summary>
+        <p>Pair the switch as an ordinary Bluetooth keyboard in Settings,
+        Bluetooth. No Switch Control setup is needed: the app listens for
+        the key presses itself. The Open Adaptive Switch works out of the
+        box. In automatic scanning any of its actions picks, and in step
+        scanning F13 (tap) moves, F14 (hold) picks, and F15 (long press)
+        goes back. Any other switch or keyboard key can be assigned in
+        the app's Settings by pressing it.</p>
+      </details>
+
+      <details>
+        <summary>The keyboard stopped appearing when I type</summary>
+        <p>While any Bluetooth keyboard is connected, and a paired switch
+        counts as one, iOS hides the usual typing keyboard. The app
+        notices and shows its own typing pad for naming stories, folders,
+        and spots, so the switch can stay paired while you edit.</p>
+      </details>
+
+      <details>
+        <summary>How do I get better voices?</summary>
+        <p>Speech can use any voice installed on the device. Higher
+        quality voices download in iOS Settings under Accessibility,
+        Spoken Content, Voices. A Personal Voice recorded under
+        Accessibility, Personal Voice works too. Siri's own voices are not
+        open to apps.</p>
+      </details>
+
+      <details>
+        <summary>How do I move stories to another device?</summary>
+        <p>Export a story, or the whole shelf, as a .oastory file from the
+        story menu and send it like any file: AirDrop, Messages, Files. An
+        option strips voice recordings from the copy. Importing brings
+        stories in from Files or straight from another device's
+        AirDrop.</p>
+      </details>
+
+      <details>
+        <summary>Can I import a PDF?</summary>
+        <p>Yes. A PDF becomes a story with one page per PDF page, for the
+        first 60 pages of a long one. Imported pages can be cleaned up
+        like a document scan.</p>
+      </details>
+
+      <details>
+        <summary>Whose stories may I share?</summary>
+        <p>Your own. Story files exist to back up your stories and move
+        them between your own devices. Photographing a book so your own
+        child can read it with you is the same private use as reading it
+        together; passing copies of someone else's book to other people is
+        not. In practice families share what they made themselves, their
+        photos and their voices, and that is entirely theirs.</p>
+      </details>
+
+      <details>
+        <summary>Does the app collect any data?</summary>
+        <p>No. There are no accounts, no analytics, and no ads, and the
+        iOS app makes no network requests at all. The
+        <a href="/stories/privacy/">privacy policy</a> is one page.</p>
+      </details>
+    </section>
+
+    <section aria-labelledby="resources">
+      <h2 id="resources">More resources</h2>
+      <ul class="links">
+        <li><a href="/stories/app/">The web app</a>, for building stories on any computer</li>
+        <li><a href="https://github.com/mikavj/open-adaptive-stories">Source code and README</a></li>
+        <li><a href="https://github.com/mikavj/open-adaptive-stories/blob/main/docs/format.md">The .oastory file format</a></li>
+        <li><a href="https://monarchreader.com">Monarch Reader</a>, free picture books the web app can import</li>
+        <li><a href="/switch/">The Open Adaptive Switch</a>, a $15 DIY switch that pairs with the app out of the box</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Open Adaptive Stories is free software under GPL-3.0-or-later.
+    <a href="/stories/">Stories</a> |
+    <a href="/stories/privacy/">Privacy</a> |
+    <a href="https://github.com/mikavj/open-adaptive-stories">GitHub</a></p>
+  </footer>
+</div>
+
+</body>
+</html>

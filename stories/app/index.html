@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Adaptive Stories maker</title>
+<!-- SPDX-License-Identifier: GPL-3.0-or-later
+     Copyright (C) 2026 Open Adaptive Stories contributors -->
+<style>
+  :root {
+    --bg: #ffffff; --fg: #1a1a1a; --muted: #555;
+    --line: #d0d0d0; --accent: #0a5cad; --accent-fg: #ffffff;
+    --ok: #1a7a2e; --warn: #a33; --card: #f6f6f6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #16181a; --fg: #e8e8e8; --muted: #a5a5a5;
+      --line: #3a3d40; --accent: #4d9fe8; --accent-fg: #0d1117;
+      --ok: #57c073; --warn: #e07070; --card: #22252a;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0 auto; padding: 1rem; max-width: 48rem;
+    background: var(--bg); color: var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 17px; line-height: 1.45;
+  }
+  h1 { font-size: 1.5rem; margin: 0.5rem 0 0.25rem; }
+  h2 { font-size: 1.15rem; margin: 0 0 0.75rem; }
+  p  { margin: 0.5rem 0; }
+  .sub { color: var(--muted); margin-bottom: 1rem; }
+  section {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 10px; padding: 1rem; margin: 1rem 0;
+  }
+  button {
+    font: inherit; padding: 0.6rem 1.1rem; border-radius: 8px;
+    border: 1px solid var(--accent); background: var(--accent);
+    color: var(--accent-fg); cursor: pointer; min-height: 44px;
+  }
+  button.secondary { background: transparent; color: var(--accent); }
+  button.danger { background: transparent; color: var(--warn); border-color: var(--warn); }
+  button:disabled { opacity: 0.45; cursor: default; }
+  input[type=text], input[type=number], input[type=search], select {
+    font: inherit; padding: 0.5rem; border-radius: 8px;
+    border: 1px solid var(--line); background: var(--bg); color: var(--fg);
+    min-height: 44px;
+  }
+  input[type=range] { accent-color: var(--accent); }
+  input[type=color] { min-height: 44px; min-width: 3.2rem; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); padding: 0.15rem; }
+  label { display: block; margin: 0.6rem 0 0.2rem; }
+  label.inline { display: inline-flex; align-items: center; gap: 0.4rem; margin: 0.4rem 0.9rem 0.4rem 0; }
+  label.inline input { width: 1.3rem; height: 1.3rem; }
+  .row { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+  .grow { flex: 1 1 12rem; }
+  .ok   { color: var(--ok); }
+  .warn { color: var(--warn); }
+  .hidden { display: none !important; }
+  footer { color: var(--muted); font-size: 0.85rem; margin: 2rem 0 1rem; }
+  a { color: var(--accent); }
+
+  /* Page strip */
+  .strip { display: flex; gap: 0.6rem; overflow-x: auto; padding: 0.25rem 0 0.5rem; }
+  .thumb {
+    flex: none; padding: 0; border: 2px solid var(--line); border-radius: 8px;
+    background: var(--bg); cursor: pointer; overflow: hidden; position: relative;
+    min-height: 0;
+  }
+  .thumb.sel { border-color: var(--accent); }
+  .thumb canvas { display: block; }
+  .thumb .n {
+    position: absolute; left: 4px; top: 4px; font-size: 0.75rem; font-weight: 600;
+    background: rgba(0,0,0,0.55); color: #fff; border-radius: 6px; padding: 0 0.35rem;
+  }
+
+  /* Tools and canvas */
+  .toolbtn { background: transparent; color: var(--accent); }
+  .toolbtn.active { background: var(--accent); color: var(--accent-fg); }
+  .canvas-wrap {
+    position: relative; width: 100%; margin: 0.6rem 0;
+    border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+    background: #202225; touch-action: none;
+  }
+  .canvas-wrap canvas { display: block; width: 100%; height: 100%; }
+  .canvas-wrap svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .canvas-wrap svg .spot { cursor: pointer; }
+
+  /* Spot list */
+  .spot-row {
+    display: flex; align-items: center; gap: 0.5rem;
+    border-top: 1px solid var(--line); padding: 0.4rem 0;
+  }
+  .spot-row:first-child { border-top: none; }
+  .spot-row .name {
+    flex: 1; text-align: left; background: none; border: none; color: var(--fg);
+    padding: 0.3rem 0.4rem; border-radius: 6px; cursor: pointer; min-height: 36px;
+    font: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .spot-row.sel .name { background: var(--accent); color: var(--accent-fg); }
+  .spot-row .swatch { flex: none; width: 0.9rem; height: 0.9rem; border-radius: 50%; border: 1px solid var(--line); }
+  .mini {
+    min-height: 36px; padding: 0.2rem 0.6rem; border-radius: 6px;
+    background: transparent; color: var(--accent); border: 1px solid var(--line);
+  }
+  .mini.danger { color: var(--warn); }
+  #spot-panel { border-top: 1px solid var(--line); margin-top: 0.8rem; padding-top: 0.4rem; }
+
+  /* Monarch results */
+  .results { display: grid; grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr)); gap: 0.6rem; margin-top: 0.6rem; }
+  .book {
+    border: 1px solid var(--line); border-radius: 8px; background: var(--bg);
+    padding: 0.4rem; cursor: pointer; text-align: left; color: var(--fg); font: inherit;
+  }
+  .book img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: 6px; background: var(--card); }
+  .book .t { font-size: 0.9rem; margin-top: 0.3rem; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  .book .m { font-size: 0.78rem; color: var(--muted); }
+
+  /* Player */
+  #player {
+    position: fixed; inset: 0; z-index: 40; background: #0c0e10;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pv-stage {
+    position: relative; background: #000; border-radius: 6px; overflow: visible;
+  }
+  .pv-stage canvas { display: block; width: 100%; height: 100%; border-radius: 6px; }
+  .pv-stage svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .pv-btn {
+    position: fixed; z-index: 41; width: 3.6rem; height: 3.6rem; border-radius: 50%;
+    border: 2px solid #888; background: rgba(30,32,35,0.9); color: #eee;
+    font-size: 1.6rem; line-height: 1; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; min-height: 0;
+  }
+  #pv-next { right: 0.7rem; top: 50%; transform: translateY(-50%); }
+  #pv-prev { left: 0.7rem; top: 50%; transform: translateY(-50%); }
+  #pv-close { right: 0.7rem; top: 0.7rem; font-size: 1.3rem; }
+  .pv-btn.hl { border-color: transparent; }
+  #pv-caption {
+    position: fixed; left: 50%; bottom: 1.2rem; transform: translateX(-50%);
+    z-index: 41; max-width: 86vw; text-align: center;
+    font-size: clamp(1.3rem, 4.5vw, 2.3rem); font-weight: 700; color: #fff;
+    background: rgba(0,0,0,0.65); border-radius: 12px; padding: 0.35em 0.7em;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>Open Adaptive Stories maker</h1>
+<p class="sub">Turn photos into stories a child can read with one switch.
+Build a story here, mark the spots that speak, and save it as a
+<code>.oastory</code> file for the free
+<a href="https://github.com/mikavj/open-adaptive-stories">Open Adaptive
+Reading</a> app for iPhone and iPad - or read it right on this page with
+the same scanning. Stories stay in files on your device; nothing is
+uploaded.</p>
+
+<section id="too-old" class="hidden">
+  <h2>This browser is too old</h2>
+  <p>Reading and writing story files needs a browser from 2023 or later
+  (Safari 16.4, Chrome, Edge, or Firefox 113). Update the browser and
+  reload this page.</p>
+</section>
+
+<div id="app">
+
+<section>
+  <h2>Story</h2>
+  <div class="row">
+    <button id="btn-new" class="secondary">New story</button>
+    <button id="btn-open" class="secondary">Open a story file</button>
+    <button id="btn-save">Save story file</button>
+    <input type="file" id="file-open" accept=".oastory" class="hidden">
+  </div>
+  <label for="story-title">Title</label>
+  <input type="text" id="story-title" class="grow" style="width:100%" autocomplete="off">
+  <div id="story-picker-row" class="hidden">
+    <label for="story-picker">This file holds several stories - choose one to edit</label>
+    <select id="story-picker"></select>
+  </div>
+  <p id="file-status" class="sub"></p>
+</section>
+
+<section>
+  <h2>Pages</h2>
+  <p class="sub">One photo makes a page. Two to four photos can share a
+  page as a collage.</p>
+  <div id="page-strip" class="strip"></div>
+  <div class="row">
+    <button id="btn-add-photos">Add photos</button>
+    <input type="file" id="file-photos" accept="image/jpeg,image/png,image/webp" multiple class="hidden">
+    <button id="btn-page-left" class="mini" title="Move page earlier">&#8592; Earlier</button>
+    <button id="btn-page-right" class="mini" title="Move page later">Later &#8594;</button>
+    <select id="page-layout" class="hidden">
+      <option value="twoAcross">Side by side</option>
+      <option value="twoStack">Stacked</option>
+    </select>
+    <button id="btn-page-delete" class="mini danger">Delete page</button>
+  </div>
+</section>
+
+<section id="canvas-section">
+  <h2>Mark the spots</h2>
+  <div class="row">
+    <button class="toolbtn active" data-tool="move">Move</button>
+    <button class="toolbtn" data-tool="box">Box</button>
+    <button class="toolbtn" data-tool="ellipse">Circle</button>
+    <button class="toolbtn" data-tool="outline">Draw</button>
+  </div>
+  <div id="canvas-wrap" class="canvas-wrap">
+    <canvas id="page-canvas"></canvas>
+    <svg id="page-overlay" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <p class="sub">Drag on the photo to make a spot: a box, a circle, or
+  draw around something by hand. With Move, drag a spot to shift it.
+  The numbers show the reading order.</p>
+</section>
+
+<section id="spots-section">
+  <h2>Spots</h2>
+  <p class="sub">The highlight visits spots in this order. Use the arrows
+  to change it.</p>
+  <div id="spot-list"></div>
+  <div id="spot-panel" class="hidden">
+    <label for="spot-label">Label</label>
+    <input type="text" id="spot-label" style="width:100%" autocomplete="off">
+    <label for="spot-speech">Spoken text (leave empty to speak the label)</label>
+    <input type="text" id="spot-speech" style="width:100%" autocomplete="off">
+    <div class="row" style="margin-top:0.5rem">
+      <button id="btn-hear" class="secondary">Hear it</button>
+    </div>
+    <label class="inline"><input type="checkbox" id="spot-showlabel"> Show the label when picked</label>
+    <label class="inline"><input type="checkbox" id="spot-istext"> This spot is written text</label>
+    <label for="spot-preview">Outline before it is highlighted</label>
+    <select id="spot-preview">
+      <option value="follow">Follow the reader's setting</option>
+      <option value="show">Always outline</option>
+      <option value="hide">Never outline</option>
+    </select>
+    <label for="spot-color">Highlight color</label>
+    <div class="row">
+      <select id="spot-color">
+        <option value="default">Default</option>
+        <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="orange">Orange</option>
+        <option value="pink">Pink</option>
+        <option value="yellow">Yellow</option>
+        <option value="custom">Custom</option>
+      </select>
+      <input type="color" id="spot-color-custom" class="hidden" value="#0a84ff" aria-label="Custom highlight color">
+    </div>
+    <label for="spot-rotate">Rotate</label>
+    <div class="row">
+      <input type="range" id="spot-rotate" min="-180" max="180" step="1" value="0" class="grow">
+      <span id="spot-rotate-val" class="sub" style="margin:0">0&deg;</span>
+    </div>
+    <div id="audio-block">
+      <label>Recording</label>
+      <div class="row">
+        <button id="btn-record" class="secondary">Record</button>
+        <button id="btn-play-audio" class="secondary">Play</button>
+        <button id="btn-del-audio" class="mini danger">Remove recording</button>
+      </div>
+      <label class="inline"><input type="checkbox" id="spot-useaudio"> Play the recording instead of the spoken text</label>
+    </div>
+    <p id="audio-note" class="sub hidden">Voice recordings need Safari on a
+    Mac, iPhone, or iPad - the iPhone and iPad app plays AAC audio, which
+    this browser can't record. Spoken text works everywhere.</p>
+    <p><button id="btn-del-spot" class="danger">Delete spot</button></p>
+  </div>
+</section>
+
+<section>
+  <h2>Bring in a book from Monarch Reader</h2>
+  <p class="sub">Monarch Reader - the new home of Tar Heel Reader - has
+  thousands of free picture books under Creative Commons licenses.
+  Pick one and it becomes a story: one page per picture, with the
+  caption as a spot that reads itself aloud. This search is the only
+  part of the page that talks to the internet.</p>
+  <div class="row">
+    <input type="search" id="thr-query" class="grow" placeholder="dogs, trucks, snow..." autocomplete="off">
+    <button id="btn-thr-search">Search</button>
+  </div>
+  <p id="thr-status" class="sub"></p>
+  <div id="thr-results" class="results"></div>
+</section>
+
+<section>
+  <h2>Read</h2>
+  <label for="scan-mode">Scanning</label>
+  <select id="scan-mode">
+    <option value="auto">Automatic - the highlight moves by itself, a switch press picks</option>
+    <option value="step">Step - one key moves, another picks</option>
+  </select>
+  <label for="scan-dwell">Seconds on each spot (automatic): <span id="scan-dwell-val">2</span></label>
+  <input type="range" id="scan-dwell" min="1" max="6" step="0.5" value="2" style="width:100%">
+  <label for="scan-color">Highlight color for spots without their own</label>
+  <div class="row">
+    <select id="scan-color">
+      <option value="yellow">Yellow</option>
+      <option value="blue">Blue</option>
+      <option value="green">Green</option>
+      <option value="orange">Orange</option>
+      <option value="pink">Pink</option>
+      <option value="custom">Custom</option>
+    </select>
+    <input type="color" id="scan-color-custom" class="hidden" value="#ffd60a" aria-label="Custom scan color">
+  </div>
+  <label class="inline"><input type="checkbox" id="scan-previews" checked> Faintly outline the other spots</label>
+  <div class="row" style="margin-top:0.6rem">
+    <button id="btn-read">Read this story</button>
+    <button id="btn-read-file" class="secondary">Open a story to read</button>
+    <input type="file" id="file-read" accept=".oastory" class="hidden">
+  </div>
+  <p class="sub">Works with a switch that types F13, F14, F15, Space, or
+  Enter - the Open Adaptive Switch's keys and the usual switch defaults.
+  Automatic scanning: any of those picks. Step scanning: F13 or Space
+  moves, F14 or Enter picks, F15 goes back. Tapping a spot always works
+  too.</p>
+</section>
+
+</div>
+
+<footer>
+  <p>Open Adaptive Stories is a free, open-source iPhone and iPad app:
+  <a href="https://github.com/mikavj/open-adaptive-stories">github.com/mikavj/open-adaptive-stories</a>.
+  This page is part of the project and makes the same
+  <code>.oastory</code> files the app reads. Stories are built and read
+  entirely on your device. The optional book search talks to
+  <a href="https://monarchreader.com">monarchreader.com</a>; those books
+  carry Creative Commons licenses from their authors. Story files are
+  for saving your own stories and moving them between your own devices;
+  share one only when what's inside is yours to share.</p>
+</footer>
+
+<!-- Player -->
+<div id="player" class="hidden">
+  <div class="pv-stage" id="pv-stage">
+    <canvas id="pv-canvas"></canvas>
+    <svg id="pv-overlay" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
+  <button id="pv-prev" class="pv-btn" aria-label="Previous page">&#8249;</button>
+  <button id="pv-next" class="pv-btn" aria-label="Next page">&#8250;</button>
+  <button id="pv-close" class="pv-btn" aria-label="Close">&#10005;</button>
+  <div id="pv-caption" class="hidden"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
