@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Support: OpenAdaptive Switch</title>
+<meta name="description" content="Support for the Open Adaptive Switch iOS app and switch hardware: contact, troubleshooting for connections, pairing, firmware updates, and battery readings.">
+<link rel="canonical" href="https://openadaptive.org/switch/support/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenAdaptive">
+<meta property="og:title" content="Support: OpenAdaptive Switch">
+<meta property="og:description" content="Contact and troubleshooting for the Open Adaptive Switch iOS app and switch hardware.">
+<meta property="og:url" content="https://openadaptive.org/switch/support/">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="shell narrow">
+  <header class="top">
+    <img src="/assets/logo.svg" alt="" width="34" height="34">
+    <a class="name" href="/">OpenAdaptive</a>
+    <nav aria-label="Main">
+      <a href="/switch/"><img src="/assets/switch-icon.png" alt="" width="20" height="20">Switch</a>
+      <a href="/switch/privacy/">Privacy</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <h1 class="page-title">Support</h1>
+    <p class="lede">Help with the OpenAdaptive Switch iOS app and the
+    switch hardware. Most answers are below; for everything else there is
+    a person on the other end of the email address.</p>
+
+    <section class="contact" aria-label="Contact">
+      <p style="margin-top:0">Email is the fastest route and gets answered
+      by the maintainer. Include what you were doing, what happened
+      instead, and if you have them: the app version, the switch firmware
+      version (both appear in the app), and your iOS version. Prefer
+      working in the open? Open a GitHub issue instead; issues are public,
+      so the next person with the same problem can find the answer.</p>
+      <a class="btn" href="mailto:contact@openadaptive.org">contact@openadaptive.org</a>
+      <a class="btn ghost" href="https://github.com/mikavj/open-adaptive-switch/issues">Open an issue on GitHub</a>
+    </section>
+
+    <section class="faq" aria-labelledby="troubleshooting" style="margin-top:2.5rem">
+      <h2 id="troubleshooting">Troubleshooting</h2>
+
+      <details>
+        <summary>The app does not find any switches</summary>
+        <ul>
+          <li>The app is a companion to physical OpenAdaptive Switch
+          hardware and has nothing to connect to without it. The
+          <a href="https://github.com/mikavj/open-adaptive-switch">build
+          guide</a> covers making one.</li>
+          <li>Press the switch button once: a sleeping switch does not
+          advertise until it wakes.</li>
+          <li>If it still does not appear, the battery may be empty. Plug the
+          switch in over USB-C for a few minutes and try again.</li>
+          <li>iOS asks for Bluetooth permission the first time the app scans.
+          If it was declined, turn it on under Settings, Privacy and
+          Security, Bluetooth.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>The switch will not connect</summary>
+        <ul>
+          <li>Wake the switch with a press, bring the phone closer, and try
+          again.</li>
+          <li>The switch accepts two connections at once, for example the
+          iPad it is paired to plus the app. If two devices are already
+          connected, disconnect one first.</li>
+          <li>If connecting keeps failing, press the switch's small reset
+          button once, wait a few seconds, and retry.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>I renamed or reflashed the switch and the iPad acts confused</summary>
+        <p>iOS remembers the old identity. On the iPad, Forget Device under
+        Settings, Bluetooth, then pair again through Settings, Accessibility,
+        Switch Control, Switches, Add New Switch, External.</p>
+      </details>
+
+      <details>
+        <summary>Presses do not reach the iPad</summary>
+        <ul>
+          <li>Confirm the switch is added under Settings, Accessibility,
+          Switch Control, Switches, and that its key is assigned to an
+          action.</li>
+          <li>If you changed which key the switch sends, iOS is still
+          listening for the old one. Add the switch action again so it
+          captures the new key.</li>
+          <li>Restart the switch after a rename (the app offers this); the
+          new name is used from the next start.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>A firmware update fails or never starts</summary>
+        <ul>
+          <li>Update mode drops the Bluetooth connection on purpose; the
+          switch restarts into its bootloader and the update continues in the
+          updater, not on the settings screen.</li>
+          <li>Using Nordic's DFU app: enable its option to scan for legacy
+          DFU devices, and keep packets per notification at 8 or below.</li>
+          <li>To back out of update mode without installing anything, press
+          the switch's reset button.</li>
+          <li>The fallback that always works: download the .uf2 from the
+          <a href="https://github.com/mikavj/open-adaptive-switch/releases">releases
+          page</a>, plug the switch in over USB, double tap its reset button,
+          and drag the file onto the USB drive that appears. If the copy
+          dialog reports an error at the very end, that is the drive
+          vanishing as the switch reboots; the update still succeeded.</li>
+          <li>Settings survive updates either way.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>The battery percentage looks wrong</summary>
+        <ul>
+          <li>While charging, the reading is capped at 99 because a charging
+          cell's voltage does not reliably indicate fill level.</li>
+          <li>After a full charge the switch holds 100 until the cell relaxes,
+          then the number eases down slowly rather than jumping. That is by
+          design.</li>
+          <li>A cell that measures 4.15 to 4.20 V after charging is full and
+          healthy.</li>
+        </ul>
+      </details>
+
+      <details>
+        <summary>Does the app collect any data?</summary>
+        <p>No. There are no accounts, no analytics, and no ads. The app's one
+        network request checks GitHub for firmware releases, and it can be
+        turned off in the app. The
+        <a href="/switch/privacy/">privacy policy</a> has the details.</p>
+      </details>
+    </section>
+
+    <section aria-labelledby="resources">
+      <h2 id="resources">More resources</h2>
+      <ul class="links">
+        <li><a href="https://apps.apple.com/us/app/open-adaptive-switch/id6788922532">The iOS app on the App Store</a></li>
+        <li><a href="https://mikavj.github.io/open-adaptive-switch/">Web app setup page</a> (works without the app, in Chrome or Edge, or Bluefy on iOS)</li>
+        <li><a href="https://github.com/mikavj/open-adaptive-switch">Build guide and documentation</a></li>
+        <li><a href="https://github.com/mikavj/open-adaptive-switch/releases">Firmware releases</a></li>
+        <li><a href="https://support.apple.com/en-us/119835">Apple's Switch Control overview</a> and the
+        <a href="https://support.apple.com/guide/iphone/use-switch-control-iph8de250c54/ios">guide to actions and recipes</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>Open Adaptive Switch is free and open source, GPL-3.0-or-later.
+    <a href="/switch/">Switch</a> |
+    <a href="/switch/privacy/">Privacy</a> |
+    <a href="https://github.com/mikavj/open-adaptive-switch">GitHub</a></p>
+  </footer>
+</div>
+
+</body>
+</html>

@@ -11,8 +11,10 @@ Facts:
   Bluetooth LE, built from a Seeed XIAO nRF52840 board, a momentary
   button, and a small battery. It works with the iOS Switch Control
   accessibility feature. Comparable commercial switches sell for around
-  $200. It is configured over Bluetooth from a companion iPhone app or a
-  browser setup page. Its own site is openadaptiveswitch.com.
+  $200. It is configured over Bluetooth from the free companion iPhone
+  app (apps.apple.com/us/app/open-adaptive-switch/id6788922532) or a
+  browser setup page. Its earlier site at openadaptiveswitch.com stays up
+  during the move to this domain.
 - Open Adaptive Stories is a free iPhone and iPad app for people who
   read with a switch. It turns photos into stories made of spots; in
   reading mode a highlight scans from spot to spot and one switch press
@@ -28,7 +30,9 @@ Facts:
 ## Links
 
 - [Switch overview](https://openadaptive.org/switch/)
-- [Switch site, support, and privacy policy](https://openadaptiveswitch.com/)
+- [Switch app on the App Store](https://apps.apple.com/us/app/open-adaptive-switch/id6788922532)
+- [Switch support](https://openadaptive.org/switch/support/)
+- [Switch privacy policy](https://openadaptive.org/switch/privacy/)
 - [Switch source and build guide](https://github.com/mikavj/open-adaptive-switch)
 - [Stories overview](https://openadaptive.org/stories/)
 - [Stories web app](https://openadaptive.org/stories/app/)

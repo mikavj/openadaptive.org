@@ -61,6 +61,19 @@ h1 { font-size: clamp(1.9rem, 4.5vw, 2.7rem); line-height: 1.15; margin: 0 0 1re
   display: block; width: 100%; max-width: 380px; height: auto; margin: 0 auto;
   filter: drop-shadow(0 22px 26px rgba(5, 30, 70, 0.35));
 }
+.phone {
+  border: 9px solid var(--frame); border-radius: 2.6rem; overflow: hidden;
+  background: #000; box-shadow: 0 22px 45px rgba(10, 25, 45, 0.28);
+}
+.phone img { display: block; width: 100%; height: auto; }
+.hero-visual { position: relative; max-width: 280px; margin: 0 auto; }
+.hero-visual .overlay {
+  position: absolute; left: -21%; bottom: -4%; width: 74%; height: auto;
+  filter: drop-shadow(0 14px 18px rgba(5, 30, 70, 0.45));
+}
+.split { display: grid; grid-template-columns: 4fr 7fr; gap: 2.5rem; align-items: center; }
+.split .phone { max-width: 250px; margin: 0 auto; }
+.btn.soon-tag { background: transparent; border-color: var(--line); color: var(--muted); cursor: default; }
 
 section { margin: 0 0 3.5rem; }
 h2 { font-size: 1.65rem; letter-spacing: -0.01em; margin: 0 0 0.75rem; }
@@ -123,6 +136,8 @@ footer li { margin: 0.3rem 0; }
 footer .fine { margin-top: 1.5rem; }
 
 @media (max-width: 760px) {
-  .hero.split { grid-template-columns: 1fr; gap: 2rem; }
+  .hero.split, .split { grid-template-columns: 1fr; gap: 2rem; }
+  .split .phone { order: 2; }
   .hero-icon { width: 128px; height: 128px; border-radius: 29px; }
+  .hero-visual { max-width: 230px; }
 }
