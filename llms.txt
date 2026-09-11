@@ -19,13 +19,13 @@ Facts:
   read with a switch. It turns photos into stories made of spots; in
   reading mode a highlight scans from spot to spot and one switch press
   speaks the highlighted one. Page turns and the exit button are part of
-  the scan cycle. An App Store release is being prepared; the app builds
-  from source with Xcode today.
+  the scan cycle. An App Store release is being prepared; a public
+  TestFlight beta is open.
 - A web app at openadaptive.org/stories/app/ builds and plays the same
   .oastory files in any browser, and can import free picture books from
   Monarch Reader.
 - Neither app collects data: no accounts, no analytics, no ads.
-- Everything is licensed GPL-3.0-or-later.
+- The switch firmware, app, and this site are licensed GPL-3.0-or-later.
 
 ## Links
 
@@ -35,13 +35,12 @@ Facts:
 - [Switch privacy policy](https://openadaptive.org/switch/privacy/)
 - [Switch source and build guide](https://github.com/mikavj/open-adaptive-switch)
 - [Stories overview](https://openadaptive.org/stories/)
+- [Stories TestFlight beta](https://testflight.apple.com/join/khEAMtPp)
 - [Stories web app](https://openadaptive.org/stories/app/)
 - [Stories support](https://openadaptive.org/stories/support/)
 - [Stories privacy policy](https://openadaptive.org/stories/privacy/)
-- [Stories source](https://github.com/mikavj/open-adaptive-stories)
 
 ## Contact
 
 - Email: contact@openadaptive.org
-- Issues: https://github.com/mikavj/open-adaptive-switch/issues and
-  https://github.com/mikavj/open-adaptive-stories/issues
+- Issues for the switch: https://github.com/mikavj/open-adaptive-switch/issues

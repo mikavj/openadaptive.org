@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interactive Dollhouse: OpenAdaptive concept</title>
+<meta name="description" content="A four-room turntable dollhouse played with a board of one to three adaptive switches. Concept with an interactive 3D render.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://openadaptive.org/concepts/interactive-dollhouse/">
+<link rel="stylesheet" href="/assets/site.css">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="icon" type="image/svg+xml" href="/assets/logo.svg">
+<link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="OpenAdaptive">
+<meta property="og:title" content="Interactive Dollhouse: OpenAdaptive concept">
+<meta property="og:description" content="A four-room turntable dollhouse played with a board of one to three adaptive switches. Concept with an interactive 3D render.">
+<meta property="og:url" content="https://openadaptive.org/concepts/interactive-dollhouse/">
+<meta property="og:image" content="https://openadaptive.org/assets/og-image.png">
+<style>
+/* Render styles, carried over from the concept file */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.big{width:84px;height:84px;border-radius:50%;border:4px solid #000;padding:0;cursor:pointer;transition:transform .12s,opacity .2s}
+.big:active{transform:scale(.93)}
+.big.off{opacity:.15;cursor:default}
+.lab{margin-top:8px;font-size:14px;font-weight:500;color:#f4f4f4}
+.lab.off{color:#5a5a5a}
+.sel{border-color:var(--border-stronger)!important;background:var(--surface-1)!important}
+/* Colors the render expected from its original host, mapped to the site palette */
+.concept-render {
+  --surface-1: var(--card); --text-primary: var(--fg);
+  --text-secondary: var(--muted); --text-muted: var(--muted);
+  --border-stronger: var(--accent);
+  margin: 1.5rem 0;
+}
+.concept-render #wrap { border: 1px solid var(--line); }
+.concept-render .rb, .concept-render .lv, .concept-render #spin {
+  font: inherit; font-size: 0.92rem; font-weight: 500; line-height: 1.3;
+  padding: 0.4rem 0.85rem; border-radius: 8px; cursor: pointer;
+  border: 1.5px solid var(--line); background: transparent; color: var(--fg);
+}
+.concept-render .lv { min-width: 2.3rem; padding: 0.3rem 0.6rem; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div class="shell narrow">
+  <header class="top">
+    <img src="/assets/logo.svg" alt="" width="34" height="34">
+    <a class="name" href="/">OpenAdaptive</a>
+    <nav aria-label="Main">
+      <a href="/switch/"><img src="/assets/switch-icon.png" alt="" width="20" height="20">Switch</a>
+      <a href="/stories/"><img src="/assets/stories-icon.png" alt="" width="20" height="20">Stories</a>
+      <a href="https://github.com/mikavj">GitHub</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <h1 class="page-title">Interactive Dollhouse</h1>
+    <p class="lede">A turntable dollhouse with four rooms: kitchen, living
+    room, bedroom, and backyard. A board of three switches stays fixed in
+    front, and what each switch does depends on which room is turned to
+    the front.</p>
+
+    <div class="concept-render">
+<h2 class="sr-only">Interactive 3D render of a four-room turntable dollhouse with kitchen, living room, bedroom, and backyard, plus a fixed three-switch board whose actions change with the room facing the child.</h2>
+<div id="wrap" style="position:relative;width:100%;height:420px;border-radius:12px;overflow:hidden;background:var(--surface-1)">
+<canvas id="cv" style="display:block;width:100%;height:100%;touch-action:pan-y;cursor:grab"></canvas>
+<div style="position:absolute;left:14px;top:12px;font-size:13px;color:var(--text-secondary)">Facing child: <span id="rn" style="color:var(--text-primary);font-weight:500">Kitchen</span></div>
+<div style="position:absolute;right:14px;top:12px;font-size:12px;color:var(--text-muted)">Drag to orbit</div>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 14px">
+<button class="rb sel" data-i="0">Kitchen</button><button class="rb" data-i="1">Living room</button><button class="rb" data-i="2">Bedroom</button><button class="rb" data-i="3">Backyard</button><button id="spin">Spin</button>
+</div>
+<div style="background:#141414;border-radius:12px;padding:18px 12px 14px">
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;text-align:center">
+<div><button class="big" data-b="0" aria-label="Left switch" style="background:#e8231f"></button><div class="lab" id="l0">Blender</div></div>
+<div><button class="big" data-b="1" aria-label="Middle switch" style="background:#ffcf1a"></button><div class="lab" id="l1">Prayer</div></div>
+<div><button class="big" data-b="2" aria-label="Right switch" style="background:#22c24c"></button><div class="lab" id="l2">Highs and lows</div></div>
+</div>
+<div id="st" style="margin-top:12px;font-size:13px;line-height:1.5;color:#c9c9c9;text-align:center;min-height:40px">Press a switch</div>
+</div>
+<div style="display:flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--text-secondary)">Lit switches <button class="lv" data-n="1">1</button><button class="lv" data-n="2">2</button><button class="lv sel" data-n="3">3</button></div>
+<script src="/assets/vendor/three-r128.min.js"></script>
+<script>
+const ROOMS=[
+{n:'Kitchen',b:[['Blender','\u201cIt\u2019s almost blender time!\u201d then the blender whirs'],['Prayer','Family prays before dinner'],['Highs and lows','Each person shares a high and a low; one stool lights per voice']]},
+{n:'Living room',b:[['TV','Sofia the First, Encanto, or the Cubs with Go Cubs Go (next clip each press)'],['Dance party','Dance music plays and the walker dances'],['Story','A family member reads a book']]},
+{n:'Bedroom',b:[['Closet','\u201cWhat should we wear today?\u201d'],['Bedtime song','Tis So Sweet to Trust in Jesus; room lights dim'],['Lamp','Click, the lamp turns on']]},
+{n:'Backyard',b:[['Hot tub','Bubbles rise and the water glows'],['Swing','The swing swings'],['Brothers','\u201cLet\u2019s play baseball!\u201d or \u201cLet\u2019s go fishing!\u201d']]}];
+const cv=document.getElementById('cv'),wrap=document.getElementById('wrap');
+const R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true});
+R.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+const S=new THREE.Scene(),C=new THREE.PerspectiveCamera(36,1,1,600);
+const TG=new THREE.Vector3(5,5,7);let az=.38,el=.4,dist=96;
+function size(){const w=wrap.clientWidth,h=wrap.clientHeight;R.setSize(w,h,false);C.aspect=w/h;C.updateProjectionMatrix();const a=w/h;dist=a<1.3?96*1.3/a:96;}
+function cam(){C.position.set(TG.x+dist*Math.sin(az)*Math.cos(el),TG.y+dist*Math.sin(el),TG.z+dist*Math.cos(az)*Math.cos(el));C.lookAt(TG);}
+S.add(new THREE.HemisphereLight(0xffffff,0x6f6a60,.8));
+const DL=new THREE.DirectionalLight(0xffffff,.5);DL.position.set(30,70,45);S.add(DL);
+const FL=new THREE.PointLight(0xfff1d8,1.1,44);FL.position.set(8,14,11);S.add(FL);
+const L=c=>new THREE.MeshLambertMaterial({color:c});
+const hm=c=>new THREE.MeshLambertMaterial({color:c,emissive:c,emissiveIntensity:0});
+const BLK=L(0x171717),WHT=L(0xeeebe3),NEU=L(0x383838),RED=0xe8231f,YEL=0xffcf1a,GRN=0x22c24c;
+function bx(p,w,h,d,m,x,y,z){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);p.add(o);return o;}
+function cy(p,a,b,h,m,x,y,z,s){const o=new THREE.Mesh(new THREE.CylinderGeometry(a,b,h,s||20),m);o.position.set(x,y,z);p.add(o);return o;}
+function sp(p,r,m,x,y,z){const o=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),m);o.position.set(x,y,z);p.add(o);return o;}
+bx(S,140,1,110,L(0xd9d4c9),6,-3.75,14);
+bx(S,30,.75,30,L(0x8c8579),0,-2.875,0);
+cy(S,9,9,1.75,L(0x707070),0,-1.625,0,40);
+const TT=new THREE.Group();S.add(TT);
+bx(TT,34,.75,34,BLK,0,-.375,0);
+bx(TT,.5,18,17.9,BLK,1,9,-7.95);bx(TT,17.9,18,.5,BLK,7.95,9,1);bx(TT,.5,18,17.9,BLK,-1,9,7.95);bx(TT,17.9,18,.5,BLK,-7.95,9,-1);
+bx(TT,.25,18,16,WHT,16.875,9,9);bx(TT,.25,18,16,BLK,16.625,9,9);
+bx(TT,16,18,.25,WHT,9,9,-16.875);bx(TT,16,18,.25,BLK,9,9,-16.625);
+bx(TT,.25,18,16,WHT,-16.875,9,-9);bx(TT,.25,18,16,BLK,-16.625,9,-9);
+bx(TT,16,18,.25,WHT,-9,9,16.875);bx(TT,16,18,.25,BLK,-9,9,16.625);
+[[8,9,18,16],[9,-8,16,18],[-8,-9,18,16],[0,0,2,2]].forEach(r=>{bx(TT,r[2],.6,r[3],WHT,r[0],18.3,r[1]);bx(TT,r[2],.05,r[3],BLK,r[0],17.97,r[1]);});
+const RG=[[8,17,0],[17,-8,Math.PI/2],[-8,-17,Math.PI],[-17,8,-Math.PI/2]].map(a=>{const g=new THREE.Group();g.position.set(a[0],0,a[1]);g.rotation.y=a[2];TT.add(g);return g;});
+const H=[[],[],[],[]];
+let g=RG[0];
+bx(g,6,6,4,NEU,-5.5,3,-13.5);bx(g,1.6,1,1.6,NEU,-5.5,6.5,-13.5);
+const jm=hm(RED),jar=cy(g,.95,.7,2.8,jm,-5.5,8.4,-13.5,6);bx(g,1.9,.3,1.9,NEU,-5.5,9.95,-13.5);
+const tm=hm(YEL);bx(g,6.5,.5,4,tm,.5,4.6,-8.5);
+[[-2.3,-10.1],[3.3,-10.1],[-2.3,-6.9],[3.3,-6.9]].forEach(p=>cy(g,.2,.2,4.35,NEU,p[0],2.18,p[1],8));
+cy(g,.25,.25,1.2,WHT,.5,5.45,-8.5,10);const fm=hm(0xffa500),fl=sp(g,.3,fm,.5,6.25,-8.5);
+const sm=[-10.6,-8.5,-6.4].map(z=>{const m=hm(GRN);cy(g,.9,.9,3.2,m,5.6,1.6,z,18);return m;});
+const DM=L(0xc2bcae);cy(g,.33,.3,5.6,DM,-7.75,2.8,-3.5,10);cy(g,.33,.3,5.6,DM,-7.05,2.8,-3.5,10);cy(g,.7,.6,3.6,DM,-7.4,7.4,-3.5,14);sp(g,.95,DM,-7.4,10.4,-3.5);cy(g,.18,.16,3.4,DM,-8.35,7.3,-3.5,8);cy(g,.18,.16,3.4,DM,-6.45,7.3,-3.5,8);
+H[0]=[{m:[jm],f:(k,t)=>{jar.rotation.y=k?t*14:0;jar.position.x=-5.5+(k?Math.sin(t*70)*.06:0);}},
+{m:[tm,fm],f:(k,t)=>{fl.scale.setScalar(k?1+.25*Math.sin(t*20):1);}},
+{m:[],f:(k,t)=>{const j=Math.floor(t/1.3)%3;sm.forEach((m,i)=>m.emissiveIntensity=k&&i===j?.7:0);}}];
+g=RG[1];
+bx(g,7,2.4,2.6,NEU,-5.3,1.2,-14.2);
+const tvm=hm(RED);bx(g,7.4,4.4,.5,tvm,-5.3,4.65,-15.2);
+const scr=new THREE.MeshLambertMaterial({color:0x0d0d0d,emissive:0xa8d8ff,emissiveIntensity:0});bx(g,6.6,3.6,.1,scr,-5.3,4.65,-14.9);
+const wk=new THREE.Group();wk.position.set(.5,0,-7);g.add(wk);const wm=hm(YEL);
+[[-1.3,-1],[1.3,-1],[-1.3,1],[1.3,1]].forEach(p=>{cy(wk,.17,.17,4.2,wm,p[0],2.45,p[1],8);cy(wk,.42,.42,.3,NEU,p[0],.42,p[1],14).rotation.z=Math.PI/2;});
+bx(wk,.3,.3,2.3,wm,-1.3,4.5,0);bx(wk,.3,.3,2.3,wm,1.3,4.5,0);bx(wk,2.9,.3,.3,wm,0,4.5,-1);
+const cm=hm(GRN);bx(g,4.2,2.2,3.8,cm,5.3,1.1,-9);bx(g,4.2,4.4,.9,cm,5.3,2.2,-11.35);bx(g,.7,2.8,3.8,cm,3.2,1.4,-9);bx(g,.7,2.8,3.8,cm,7.4,1.4,-9);
+const bk=bx(g,1.4,.25,1.8,WHT,5.3,2.35,-8.4);
+H[1]=[{m:[tvm],f:(k,t)=>{scr.emissiveIntensity=k?.75+.2*Math.sin(t*9):0;}},
+{m:[wm],f:(k,t)=>{wk.position.x=.5+(k?Math.sin(t*5)*1.3:0);wk.rotation.y=k?Math.sin(t*5)*.25:0;}},
+{m:[cm],f:(k,t)=>{bk.rotation.z=k?Math.sin(t*3)*.5:0;}}];
+g=RG[2];
+const wdm=hm(RED);bx(g,5,10,3,wdm,-5.8,5,-14.2);bx(g,.12,9,.1,NEU,-5.8,5,-12.68);sp(g,.22,NEU,-6.3,5,-12.62);sp(g,.22,NEU,-5.3,5,-12.62);
+const bdm=hm(YEL);bx(g,5,1.6,9,bdm,.6,.8,-10.8);bx(g,5.2,4.2,.5,NEU,.6,2.1,-15.5);bx(g,3.8,.7,1.6,WHT,.6,1.95,-14.1);
+bx(g,2.6,3.2,2.6,NEU,5.9,1.6,-13.8);cy(g,.3,.5,1.6,NEU,5.9,4,-13.8,12);
+const lm=hm(GRN);cy(g,.75,1.25,1.6,lm,5.9,5.5,-13.8,20);
+const LP=new THREE.PointLight(0xffd27a,0,22);LP.position.set(5.9,4.6,-12.4);g.add(LP);
+const lb=new THREE.MeshLambertMaterial({color:0xfff3c4,emissive:0xffd27a,emissiveIntensity:0});sp(g,.5,lb,5.9,4.9,-13.8);
+H[2]=[{m:[wdm],f:()=>{}},{m:[bdm],f:k=>{FL.intensity=k?.35:1.1;}},{m:[lm],f:k=>{LP.intensity=k?1.4:0;lb.emissiveIntensity=k?1:0;}}];
+g=RG[3];
+const htm=hm(RED);cy(g,3.3,3.3,2.8,htm,-4.8,1.4,-9,28);
+const wtr=new THREE.MeshLambertMaterial({color:0x1d5bb8,emissive:0x62e6ff,emissiveIntensity:0});cy(g,2.9,2.9,.12,wtr,-4.8,2.78,-9,28);
+const bub=[];for(let i=0;i<8;i++){const a=i/8*Math.PI*2,r=i%2?1.1:2.1;const b=sp(g,.32,WHT,-4.8+Math.cos(a)*r,2.9,-9+Math.sin(a)*r);b.visible=false;b.userData.ph=i*.8;bub.push(b);}
+cy(g,.25,.25,9.6,NEU,-.6,4.8,-10,10);cy(g,.25,.25,9.6,NEU,5,4.8,-10,10);bx(g,6,.4,.4,NEU,2.2,9.5,-10);
+const pv=new THREE.Group();pv.position.set(2.2,9.4,-10);g.add(pv);const swm=hm(YEL);
+cy(pv,.08,.08,6,swm,-1.1,-3,0,6);cy(pv,.08,.08,6,swm,1.1,-3,0,6);bx(pv,2.8,.35,1.4,swm,0,-6.1,0);
+const gm=hm(GRN);const bat=cy(g,.2,.45,5.2,gm,6.6,2.6,-4.5,12);bat.rotation.z=.28;
+const pole=cy(g,.07,.12,11,gm,7.7,5.5,-9.5,8);pole.rotation.z=.12;sp(g,.5,WHT,5.2,.5,-3);
+H[3]=[{m:[htm],f:(k,t)=>{wtr.emissiveIntensity=k?.6+.2*Math.sin(t*6):0;bub.forEach(b=>{b.visible=k;b.position.y=2.9+((t*1.6+b.userData.ph)%1.6);});}},
+{m:[swm],f:(k,t)=>{pv.rotation.x=k?Math.sin(t*2.6)*.55:0;}},
+{m:[gm],f:(k,t)=>{bat.rotation.z=.28+(k?Math.sin(t*4)*.15:0);}}];
+const BD=new THREE.Group();BD.position.set(8,-1.7,29);BD.rotation.x=.2;S.add(BD);
+bx(BD,16,1.3,7,BLK,0,0,0);
+const BB=[RED,YEL,GRN].map((c,i)=>{const m=new THREE.MeshLambertMaterial({color:c,emissive:c,emissiveIntensity:.2});const o=cy(BD,2,2,.8,m,(i-1)*5,1,0,32);o.userData.c=c;return o;});
+let cur=0,tgt=0,room=0,act=null,lit=3;const ACT={1:[1],2:[0,2],3:[0,1,2]};
+const rn=document.getElementById('rn'),st=document.getElementById('st');
+const bigs=[...document.querySelectorAll('.big')],labs=[0,1,2].map(i=>document.getElementById('l'+i));
+function ui(){rn.textContent=ROOMS[room].n;bigs.forEach((b,i)=>{const on=ACT[lit].includes(i);b.classList.toggle('off',!on);labs[i].classList.toggle('off',!on);labs[i].textContent=ROOMS[room].b[i][0];});
+document.querySelectorAll('.rb').forEach(b=>b.classList.toggle('sel',+b.dataset.i===room));document.querySelectorAll('.lv').forEach(b=>b.classList.toggle('sel',+b.dataset.n===lit));
+BB.forEach((o,i)=>{const on=ACT[lit].includes(i);o.material.color.setHex(on?o.userData.c:0x2a2a2a);o.material.emissive.setHex(on?o.userData.c:0);});}
+function go(i){room=i;tgt=-i*Math.PI/2;act=null;st.textContent='Press a switch';ui();}
+document.querySelectorAll('.rb').forEach(b=>b.onclick=()=>go(+b.dataset.i));
+document.getElementById('spin').onclick=()=>go((room+1)%4);
+document.querySelectorAll('.lv').forEach(b=>b.onclick=()=>{lit=+b.dataset.n;act=null;st.textContent='Press a switch';ui();});
+bigs.forEach((b,i)=>b.onclick=()=>{if(!ACT[lit].includes(i))return;const d=ROOMS[room].b[i];act={r:room,b:i,t0:performance.now(),dur:6000};st.textContent=ROOMS[room].n+' \u00b7 '+d[0]+': '+d[1];});
+let dr=null;
+cv.addEventListener('pointerdown',e=>{dr={x:e.clientX,y:e.clientY,a:az,e:el};cv.style.cursor='grabbing';try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+cv.addEventListener('pointermove',e=>{if(!dr)return;az=dr.a-(e.clientX-dr.x)*.008;el=Math.max(.08,Math.min(1.35,dr.e+(e.clientY-dr.y)*.006));});
+const up=()=>{dr=null;cv.style.cursor='grab';};cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',up);
+let last=performance.now();
+function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;cur+=(tgt-cur)*(1-Math.exp(-dt*4));TT.rotation.y=cur;
+const t=act?(now-act.t0)/1000:0,on=!!(act&&t*1000<act.dur);
+for(let r=0;r<4;r++)for(let b=0;b<3;b++){const h=H[r][b],k=on&&act.r===r&&act.b===b;h.m.forEach(m=>m.emissiveIntensity=k?.4+.25*Math.sin(t*7):0);h.f(k,t);}
+BB.forEach((o,i)=>{const k=on&&act.b===i;o.position.y=1-(k&&t<.3?.35:0);if(ACT[lit].includes(i))o.material.emissiveIntensity=k?.6:.2;});
+cam();R.render(S,C);requestAnimationFrame(loop);}
+size();new ResizeObserver(size).observe(wrap);ui();requestAnimationFrame(loop);
+</script>    </div>
+
+    <p class="soon">11 September 2026</p>
+  </main>
+
+  <footer>
+    <p>OpenAdaptive. Open source assistive technology.
+    <a href="/">Home</a> |
+    <a href="/concepts/">Concepts</a> |
+    <a href="mailto:contact@openadaptive.org">contact@openadaptive.org</a></p>
+  </footer>
+</div>
+
+</body>
+</html>
